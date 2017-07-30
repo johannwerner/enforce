@@ -16,4 +16,6 @@
 @property (nonatomic, assign) long imageId;
 
 - (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL imageId:(long)imageId;
+
+- (id)initWithDictionary:(NSDictionary*)dictionary;
 @end

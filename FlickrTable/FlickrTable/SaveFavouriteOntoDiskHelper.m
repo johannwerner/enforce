@@ -14,28 +14,26 @@ static NSString * ListOfFavouritesDefaultsKey = @"ListOfFavouritesDefaultsKey";
 @implementation SaveFavouriteOntoDiskHelper
 
 +(void)addFavourtiteImage:(N4FlickrImage*) n4flickrImage
-
+//This should ideally be done by saving on a sql database especially if data becomes more complex
 {
     NSMutableArray *favouritesArray = [[SaveFavouriteOntoDiskHelper getListOfFavourites] mutableCopy];
     
     if (favouritesArray == nil) {
         favouritesArray = [[NSMutableArray alloc] init];
     }
-    bool alreadySaved = false;
-    for (N4FlickrImage* n4flickrImageInArray in favouritesArray) {
-        if (n4flickrImage.url == n4flickrImageInArray.url && n4flickrImage.title == n4flickrImageInArray.title && n4flickrImage.url == n4flickrImageInArray.url && n4flickrImage.previewURL == n4flickrImageInArray.previewURL) {
-            n4flickrImageInArray.comment = n4flickrImage.comment;
-            alreadySaved = true;
+
+    for (NSDictionary* n4flickrImageDict in favouritesArray) {
+        N4FlickrImage *n4flickrImageInArray = [[N4FlickrImage alloc] initWithDictionary:n4flickrImageDict];
+        if ([n4flickrImageInArray.url isEqualToString:n4flickrImage.url]) {
+            [favouritesArray removeObject:n4flickrImageDict];
         }
+        
     }
-    if (!alreadySaved) {
-         NSData *imageEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:n4flickrImage];
-            [favouritesArray addObject:imageEncodedObject];
-    }
+
+    [favouritesArray addObject:@{@"title":n4flickrImage.title,@"url":n4flickrImage.url,@"previewUrl":n4flickrImage.previewURL,@"comment":n4flickrImage.comment}];
     
     [[NSUserDefaults standardUserDefaults] setObject:favouritesArray forKey:ListOfFavouritesDefaultsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
 }
 
 +(NSArray*)getListOfFavourites

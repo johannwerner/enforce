@@ -41,14 +41,11 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add Favourite" style:UIBarButtonItemStylePlain target:self action:@selector(addFavourite)];
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"AddFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(addFavourite)];
     
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.title = self.image.title; //Long title maybe we can 
+    
+    self.scrollView = [[UIScrollView alloc] init];
     [self.scrollView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
     
     
@@ -76,10 +73,14 @@
         MAX(self.scrollView.minimumZoomScale, scrollViewWidth / 1248) * 4;
         self.scrollView.zoomScale = self.scrollView.maximumZoomScale/2;
     }];
+
 }
-                                              
-                                              
-                                 
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.fullScreenImageView;
@@ -98,7 +99,30 @@
 }
 
 -(void)addFavourite {
- 
+    
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"AppName", nil)
+                                                                              message: NSLocalizedString(@"AddCommentOnFavourite", nil)
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"CommentPlaceHolderKey", nil);
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"CancelKey" , nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OKKey", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSArray * textfields = alertController.textFields;
+        UITextField * commentTextField = textfields[0];
+        self.image.comment = commentTextField.text;
+        
+        
+        [SaveFavouriteOntoDiskHelper addFavourtiteImage:self.image];
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+
 }
 
 

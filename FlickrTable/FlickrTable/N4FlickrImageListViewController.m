@@ -13,6 +13,7 @@
 #import "N4FlickrImageCell.h"
 #import "N4FlickrImageViewController.h"
 #import "N4FlickrImage.h"
+#import "FavouritesTableViewController.h"
 
 @interface N4FlickerImageCacheInfo : NSData
 @property (nonatomic,copy) NSString *url;
@@ -33,19 +34,11 @@
 
 @implementation N4FlickrImageListViewController
 
-- (id)init
-{
-    self = [super init];
-    if(self)
-    {
-        self.title = @"Recent Photos";
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.title = NSLocalizedString(@"RecentPhotos", nil);
     
     self.tableView.rowHeight = 75.0f;
     [self.tableView registerClass:[N4FlickrImageCell class]
@@ -56,6 +49,8 @@
     self.imageCacheHelper = [[ImageCacheHelper alloc] init];
 
     [self updatePhotos:nil];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ViewFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(favourites)];
 }
 
 - (void)updatePhotos:(id)sender
@@ -66,7 +61,7 @@
     [activityView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
     
     activityView.hidesWhenStopped = NO;
-    activityView.color = [UIColor blueColor];
+    activityView.color = self.view.tintColor;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 
@@ -115,5 +110,12 @@
         N4FlickrImageViewController *ctrl = [[N4FlickrImageViewController alloc]
                                              initWithFlickrImage:[_imageSource imageAtIndex:indexPath.row]];
         [self.navigationController pushViewController:ctrl animated:YES];
+}
+
+#pragma mark - Selectors
+
+- (void)favourites {
+    FavouritesTableViewController *favouritesTableViewController = [[FavouritesTableViewController alloc] init];
+    [self.navigationController pushViewController:favouritesTableViewController animated:YES];
 }
 @end

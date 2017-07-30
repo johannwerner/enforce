@@ -16,7 +16,20 @@
     _url = url;
     _previewURL = previewURL;
     _imageId = imageId;
+    _comment = @"";
     return self;
 }
+
+
+- (id)initWithDictionary:(NSDictionary*)dictionary
+{
+    _title = dictionary[@"title"];
+    _url = dictionary[@"url"];
+    _previewURL =  dictionary[@"previewUrl"];
+    _comment = dictionary[@"comment"];
+    return self;
+}
+
+
 
 @end

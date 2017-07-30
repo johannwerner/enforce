@@ -15,7 +15,7 @@
 + (void)fetchRecentImagesWithCompletion:(void (^)(NSArray *response,
                                                   NSError *error))completion {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    NSString *urlString = [NSString stringWithFormat:@"https://api.flickr.com/services/rest?method=flickr.photos.getRecent&api_key=%@&format=json&nojsoncallback=1", FLICKR_KEY];
+    NSString *urlString = [NSString stringWithFormat:FLICKR_PHOTOS_ENDPOINT, FLICKR_KEY];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -28,36 +28,46 @@
     [[session dataTaskWithRequest:request
                 completionHandler:^(NSData *data, NSURLResponse *response,
                                     NSError *error) {
+                    if (data != nil) {
                     NSDictionary *responseDictionary =
                     [NSJSONSerialization JSONObjectWithData:data
                                                     options:kNilOptions
                                                       error:&error];
-                    if (data != nil) {
-                        
-                        NSArray *jsonImages = responseDictionary[@"photos"][@"photo"];
-                        
-                        NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity: jsonImages.count];
-                        
-                        for( NSDictionary * image in jsonImages )
-                        {
-                            NSString *url = [NSString stringWithFormat:@"https://farm%@.staticflickr.com/%@/%@_%@", image[@"farm"], image[@"server"], image[@"id"], image[@"secret"] ];
+                 
+                        if (response != nil) {
+                            NSArray *jsonImages = responseDictionary[@"photos"][@"photo"];
                             
-                            NSMutableString* imageURL = [[NSMutableString alloc] initWithString:url];
-                            [imageURL appendString:@"_b.jpg"];
-                            NSMutableString *previewURL = [[NSMutableString alloc] initWithString:url];
-                            [previewURL appendString:@"_q.jpg"];
+                            NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity: jsonImages.count];
                             
-                            N4FlickrImage * flickerImage = [[N4FlickrImage alloc] initWithTitle:image[@"title"] url:imageURL previewURL:previewURL imageId:[image[@"id"] integerValue]];
-                            [images addObject:flickerImage];
+                            for( NSDictionary * image in jsonImages )
+                            {
+                                NSString *url = [NSString stringWithFormat:@"https://farm%@.staticflickr.com/%@/%@_%@", image[@"farm"], image[@"server"], image[@"id"], image[@"secret"] ];
+                                
+                                NSMutableString* imageURL = [[NSMutableString alloc] initWithString:url];
+                                [imageURL appendString:@"_b.jpg"];
+                                NSMutableString *previewURL = [[NSMutableString alloc] initWithString:url];
+                                [previewURL appendString:@"_q.jpg"];
+                                
+                                N4FlickrImage * flickerImage = [[N4FlickrImage alloc] initWithTitle:image[@"title"] url:imageURL previewURL:previewURL imageId:[image[@"id"] integerValue]];
+                                [images addObject:flickerImage];
+                            }
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                
+                                completion(images, error);
+                            });
+
+                        } else {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                completion(nil, error);
+                            });
                         }
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            
-                            completion(images, error);
-                        });
+       
+                    
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            completion(nil, error);
-                        });
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                completion(nil, error);
+                            });
                     }
                 }] resume];
 }
