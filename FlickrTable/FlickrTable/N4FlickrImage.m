@@ -7,6 +7,7 @@
 //
 
 #import "N4FlickrImage.h"
+#import "N4FlickrConstants.h"
 
 @implementation N4FlickrImage
 
@@ -20,13 +21,24 @@
     return self;
 }
 
-
-- (id)initWithDictionary:(NSDictionary*)dictionary
+- (id)initWithAttributes:(NSDictionary*)attributes
 {
-    _title = dictionary[@"title"];
-    _url = dictionary[@"url"];
-    _previewURL =  dictionary[@"previewUrl"];
-    _comment = dictionary[@"comment"];
+    if (attributes[N4FlickrImageDictionaryConsantTitle] && [attributes[N4FlickrImageDictionaryConsantTitle] isKindOfClass:[NSString class]] ) {
+          _title = attributes[N4FlickrImageDictionaryConsantTitle];
+    }
+    
+    if (attributes[N4FlickrImageDictionaryConsantUrl ] && [attributes[N4FlickrImageDictionaryConsantUrl] isKindOfClass:[NSString class]] ) {
+        _url = attributes[N4FlickrImageDictionaryConsantUrl ];
+    }
+    
+    if (attributes[N4FlickrImageDictionaryConsantPreviewUrl] && [attributes[N4FlickrImageDictionaryConsantPreviewUrl] isKindOfClass:[NSString class]] ) {
+        _previewURL =  attributes[N4FlickrImageDictionaryConsantPreviewUrl];
+    }
+    
+    if (attributes[N4FlickrImageDictionaryConsantComment] && [attributes[N4FlickrImageDictionaryConsantComment] isKindOfClass:[NSString class]] ) {
+       _comment = attributes[N4FlickrImageDictionaryConsantComment];
+    }
+
     return self;
 }
 

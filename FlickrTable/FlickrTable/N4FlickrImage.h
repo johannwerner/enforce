@@ -17,5 +17,5 @@
 
 - (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL imageId:(long)imageId;
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
+- (id)initWithAttributes:(NSDictionary*)attributes;
 @end

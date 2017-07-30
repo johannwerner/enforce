@@ -31,10 +31,11 @@
     if (imageFromCache) {
         onImageDidLoad(imageFromCache);
     } else {
+        ImageCacheHelper* __weak weakSelf = self;
         [API fetchImageFromUrl:urlString
                      onDidLoad:^(UIImage *image) {
                          if (urlString) {
-                             self.imageCache[urlString] = image;
+                             weakSelf.imageCache[urlString] = image;
                              onImageDidLoad(image);
                          } else {
                              onImageDidLoad(nil);

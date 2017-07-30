@@ -59,21 +59,21 @@
     self.fullScreenImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.scrollView addSubview:self.fullScreenImageView];
     
+    N4FlickrImageViewController* __weak weakSelf = self;
     [API fetchImageFromUrl:self.image.url onDidLoad:^(UIImage *image) {
         
-        self.fullScreenImageView.image = image;
+        weakSelf.fullScreenImageView.image = image;
         
-        CGFloat scrollViewWidth = self.view.frame.size.width;
-        CGFloat scrollViewHeight = self.view.frame.size.height;
+        CGFloat scrollViewWidth = weakSelf.view.frame.size.width;
+        CGFloat scrollViewHeight = weakSelf.view.frame.size.height;
         
         CGFloat widthRatio = scrollViewWidth / image.size.width;
         CGFloat heightRatio = scrollViewHeight / image.size.height;
-        self.scrollView.minimumZoomScale = MIN(heightRatio, widthRatio);
-        self.scrollView.maximumZoomScale =
-        MAX(self.scrollView.minimumZoomScale, scrollViewWidth / 1248) * 4;
-        self.scrollView.zoomScale = self.scrollView.maximumZoomScale/2;
+        weakSelf.scrollView.minimumZoomScale = MIN(heightRatio, widthRatio);
+        weakSelf.scrollView.maximumZoomScale =
+        MAX(weakSelf.scrollView.minimumZoomScale, scrollViewWidth / 1248) * 4;
+        weakSelf.scrollView.zoomScale = weakSelf.scrollView.maximumZoomScale/2;
     }];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -112,19 +112,17 @@
         
     }]];
     
+    N4FlickrImageViewController* __weak weakSelf = self;
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OKKey", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSArray * textfields = alertController.textFields;
         UITextField * commentTextField = textfields[0];
-        self.image.comment = commentTextField.text;
+        weakSelf.image.comment = commentTextField.text;
         
         
-        [SaveFavouriteOntoDiskHelper addFavourtiteImage:self.image];
+        [SaveFavouriteOntoDiskHelper addFavourtiteImage:weakSelf.image];
     }]];
     
     [self presentViewController:alertController animated:YES completion:nil];
-
 }
-
-
 
 @end

@@ -24,8 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
     self.tableView.rowHeight = 75.0f;
     [self.tableView registerClass:[N4FlickrImageCell class]
            forCellReuseIdentifier:NSStringFromClass([N4FlickrImageCell class])];
@@ -35,16 +33,11 @@
     self.imageCacheHelper = [[ImageCacheHelper alloc] init];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return self.favouritesArray.count;
 }
+
 #pragma mark - UITableView DataSource/Delegate methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -52,7 +45,7 @@
 {
     N4FlickrImageCell *cell = [tableView dequeueReusableCellWithIdentifier:
                                NSStringFromClass([N4FlickrImageCell class])];
-    N4FlickrImage *flickrImage = [[N4FlickrImage alloc] initWithDictionary:self.favouritesArray[indexPath.row]];
+    N4FlickrImage *flickrImage = [[N4FlickrImage alloc] initWithAttributes:self.favouritesArray[indexPath.row]];
     
     cell.title = flickrImage.comment;
     
@@ -65,8 +58,6 @@
                                            cell.previewImage = nil;
                                        }
                                    }];
-    
-    
     return cell;
 }
 

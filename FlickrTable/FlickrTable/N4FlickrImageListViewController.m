@@ -55,8 +55,8 @@
 
 - (void)updatePhotos:(id)sender
 {
-//#warning this indicator view is not visible :(
-    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
+// Indicator is now visible :)
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [activityView sizeToFit];
     [activityView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
     
@@ -66,10 +66,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 
     [activityView startAnimating];
-    [self.imageSource fetchRecentImagesWithCompletion:^{
-        [self.tableView reloadData];
+    N4FlickrImageListViewController * __weak weakSelf = self;
+    [weakSelf.imageSource fetchRecentImagesWithCompletion:^{
+        [weakSelf.tableView reloadData];
         
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updatePhotos:)];
+        weakSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:weakSelf action:@selector(updatePhotos:)];
     }];
 }
 

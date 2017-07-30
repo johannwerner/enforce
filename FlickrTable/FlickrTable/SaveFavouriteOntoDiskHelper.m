@@ -8,6 +8,7 @@
 
 #import "SaveFavouriteOntoDiskHelper.h"
 #import "N4FlickrImage.h"
+#import "N4FlickrConstants.h"
 
 static NSString * ListOfFavouritesDefaultsKey = @"ListOfFavouritesDefaultsKey";
 
@@ -23,14 +24,14 @@ static NSString * ListOfFavouritesDefaultsKey = @"ListOfFavouritesDefaultsKey";
     }
 
     for (NSDictionary* n4flickrImageDict in favouritesArray) {
-        N4FlickrImage *n4flickrImageInArray = [[N4FlickrImage alloc] initWithDictionary:n4flickrImageDict];
+        N4FlickrImage *n4flickrImageInArray = [[N4FlickrImage alloc] initWithAttributes:n4flickrImageDict];
         if ([n4flickrImageInArray.url isEqualToString:n4flickrImage.url]) {
             [favouritesArray removeObject:n4flickrImageDict];
         }
         
     }
 
-    [favouritesArray addObject:@{@"title":n4flickrImage.title,@"url":n4flickrImage.url,@"previewUrl":n4flickrImage.previewURL,@"comment":n4flickrImage.comment}];
+    [favouritesArray addObject:@{N4FlickrImageDictionaryConsantTitle:n4flickrImage.title,N4FlickrImageDictionaryConsantUrl:n4flickrImage.url,N4FlickrImageDictionaryConsantPreviewUrl:n4flickrImage.previewURL,N4FlickrImageDictionaryConsantComment:n4flickrImage.comment}];
     
     [[NSUserDefaults standardUserDefaults] setObject:favouritesArray forKey:ListOfFavouritesDefaultsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
