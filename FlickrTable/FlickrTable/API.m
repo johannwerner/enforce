@@ -7,6 +7,7 @@
 //
 
 #import "API.h"
+
 #import "N4FlickrImage.h"
 #import "N4FlickrConstants.h"
 
@@ -34,9 +35,12 @@
                                                     options:kNilOptions
                                                       error:&error];
                  
-                        if (response != nil) {
-                            NSArray *jsonImages = responseDictionary[@"photos"][@"photo"];
-                            
+                        if (response != nil && responseDictionary[@"photos"] && [responseDictionary[@"photos"] isKindOfClass:[NSDictionary class]]) {
+                            NSArray *jsonImages = @[];
+                            if (responseDictionary[@"photos"][@"photo"] && [responseDictionary[@"photos"][@"photo"] isKindOfClass:[NSArray class]]) {
+                                        jsonImages = responseDictionary[@"photos"][@"photo"];
+                            }
+
                             NSMutableArray *images = [[NSMutableArray alloc] initWithCapacity: jsonImages.count];
                             
                             for( NSDictionary * image in jsonImages )

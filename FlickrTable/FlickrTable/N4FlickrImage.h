@@ -2,7 +2,7 @@
 //  N4FlickrImage.h
 //  FlickrTable
 //
-//  Created by Christian Lippka on 7/29/13.
+//  Created by Diligent Worker on 7/29/13.
 //  Copyright (c) 2013 NumberFour AG. All rights reserved.
 //
 

@@ -7,6 +7,7 @@
 //
 
 #import "N4FavouritesTableViewController.h"
+
 #import "N4FlickrImageCell.h"
 #import "N4SaveFavouriteOntoDiskHelper.h"
 #import "N4FlickrImage.h"
@@ -46,7 +47,7 @@
 {
     N4FlickrImageCell *cell = [tableView dequeueReusableCellWithIdentifier:
                                NSStringFromClass([N4FlickrImageCell class])];
-    N4FlickrImage *flickrImage = [[N4FlickrImage alloc] initWithAttributes:self.favouritesArray[indexPath.row]];
+    N4FlickrImage *flickrImage = [[N4FlickrImage alloc] initWithAttributes:self.favouritesArray[(NSUInteger) indexPath.row]];
     
     cell.title = flickrImage.comment;
     

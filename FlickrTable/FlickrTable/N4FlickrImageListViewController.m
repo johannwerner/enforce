@@ -7,6 +7,7 @@
 //
 
 #import "N4FlickrImageListViewController.h"
+
 #import "N4ImageCacheHelper.h"
 #import "N4FlickrConstants.h"
 #import "N4FlickerImageSource.h"
@@ -51,14 +52,15 @@
     [activityView sizeToFit];
     [activityView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
     
-    activityView.hidesWhenStopped = NO;
     activityView.color = self.view.tintColor;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityView];
 
     [activityView startAnimating];
     N4FlickrImageListViewController * __weak weakSelf = self;
+    
     [weakSelf.imageSource fetchRecentImagesWithCompletion:^{
+        
         [weakSelf.tableView reloadData];
         
         weakSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:weakSelf action:@selector(updatePhotos:)];
@@ -99,9 +101,9 @@
 {
     // show the selected image in our image view controller
 
-        N4FlickrImageViewController *ctrl = [[N4FlickrImageViewController alloc]
+        N4FlickrImageViewController *flickrImageViewController = [[N4FlickrImageViewController alloc]
                                              initWithFlickrImage:[_imageSource imageAtIndex:(NSUInteger) indexPath.row]];
-        [self.navigationController pushViewController:ctrl animated:YES];
+        [self.navigationController pushViewController:flickrImageViewController animated:YES];
 }
 
 #pragma mark - Selectors

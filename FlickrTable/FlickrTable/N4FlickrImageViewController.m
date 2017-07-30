@@ -7,6 +7,7 @@
 //
 
 #import "N4FlickrImageViewController.h"
+
 #import "N4FlickrImage.h"
 #import "API.h"
 #import "N4SaveFavouriteOntoDiskHelper.h"
@@ -15,7 +16,7 @@
 
 @property (strong, nonatomic) N4FlickrImage *image;
 @property (strong, nonatomic) UIScrollView *scrollView;
-@property (strong, nonatomic) UIImageView *fullScreenImageView;
+@property (strong, nonatomic) UIImageView *flickrImageView;
 
 @end
 
@@ -32,10 +33,12 @@
 	return self;
 }
 
--(void)loadView { //Fixed weird animation when going to this view not reported.
+-(void)loadView { //Fixes weird animation when going to this view that was not reported.
     self.view = [[UIView alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
 }
+
+#pragma mark - ViewController lifecycle
 
 - (void)viewDidLoad
 {
@@ -53,16 +56,16 @@
     
     self.scrollView.delegate = self;
     
-    self.fullScreenImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    self.fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
+    self.flickrImageView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.flickrImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth |
     UIViewAutoresizingFlexibleHeight;
-    self.fullScreenImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self.scrollView addSubview:self.fullScreenImageView];
+    self.flickrImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.scrollView addSubview:self.flickrImageView];
     
     N4FlickrImageViewController* __weak weakSelf = self;
     [API fetchImageFromUrl:self.image.url onDidLoad:^(UIImage *image) {
         
-        weakSelf.fullScreenImageView.image = image;
+        weakSelf.flickrImageView.image = image;
         
         CGFloat scrollViewWidth = weakSelf.view.frame.size.width;
         CGFloat scrollViewHeight = weakSelf.view.frame.size.height;
@@ -71,7 +74,7 @@
         CGFloat heightRatio = scrollViewHeight / image.size.height;
         weakSelf.scrollView.minimumZoomScale = MIN(heightRatio, widthRatio);
         weakSelf.scrollView.maximumZoomScale =
-        MAX(weakSelf.scrollView.minimumZoomScale, scrollViewWidth / 1248) * 4;
+        MAX(weakSelf.scrollView.minimumZoomScale, 1.0);
         weakSelf.scrollView.zoomScale = weakSelf.scrollView.maximumZoomScale/2;
     }];
 }
@@ -80,17 +83,19 @@
     [super viewDidAppear:animated];
     
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    //The scrollview should have same width and height of main view. from ios 9 the frame of the view is no longer guaranteed to be set by viewWillAppear and can now only be guaranteed in viewDidAppear.
+    //The scrollView should have same width and height of main view. from ios 9 the frame of the view is no longer guaranteed to be set by viewWillAppear and can now only be guaranteed in viewDidAppear.
 }
 
+#pragma mark - UIScrollViewDelegate
+
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.fullScreenImageView;
+    return self.flickrImageView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     
-    CGFloat scaledWidth = self.scrollView.zoomScale * self.fullScreenImageView.image.size.width;
-    CGFloat scaledHeight = self.scrollView.zoomScale * self.fullScreenImageView.image.size.height;
+    CGFloat scaledWidth = self.scrollView.zoomScale * self.flickrImageView.image.size.width;
+    CGFloat scaledHeight = self.scrollView.zoomScale * self.flickrImageView.image.size.height;
     
     CGFloat horizontalPadding = MAX((self.view.frame.size.width - scaledWidth) / 2, 0);
     CGFloat verticalPadding = MAX((self.view.frame.size.height - scaledHeight) / 2, 0);
@@ -98,6 +103,8 @@
     self.scrollView.contentInset =
     UIEdgeInsetsMake(verticalPadding, horizontalPadding, verticalPadding, horizontalPadding);
 }
+
+#pragma mark - Selectors
 
 -(void)addFavourite {
     
@@ -115,8 +122,8 @@
     
     N4FlickrImageViewController* __weak weakSelf = self;
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OKKey", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSArray * textfieldArray = alertController.textFields;
-        UITextField * commentTextField = textfieldArray[0];
+        NSArray * textFieldArray = alertController.textFields;
+        UITextField * commentTextField = textFieldArray[0];
         weakSelf.image.comment = commentTextField.text;
         
         

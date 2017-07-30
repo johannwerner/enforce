@@ -7,6 +7,7 @@
 //
 
 #import "N4SaveFavouriteOntoDiskHelper.h"
+
 #import "N4FlickrImage.h"
 #import "N4FlickrConstants.h"
 
@@ -31,7 +32,7 @@ static NSString * ListOfFavouritesDefaultsKey = @"ListOfFavouritesDefaultsKey";
         
     }
 
-    [favouritesArray addObject:@{N4FlickrImageDictionaryConsantTitle:n4flickrImage.title,N4FlickrImageDictionaryConsantUrl:n4flickrImage.url,N4FlickrImageDictionaryConsantPreviewUrl:n4flickrImage.previewURL,N4FlickrImageDictionaryConsantComment:n4flickrImage.comment}];
+    [favouritesArray addObject:@{N4FlickrImageDictionaryConstantTitle:n4flickrImage.title,N4FlickrImageDictionaryConstantUrl:n4flickrImage.url,N4FlickrImageDictionaryConstantPreviewUrl:n4flickrImage.previewURL,N4FlickrImageDictionaryConstantComment:n4flickrImage.comment}];
     
     [[NSUserDefaults standardUserDefaults] setObject:favouritesArray forKey:ListOfFavouritesDefaultsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
