@@ -16,15 +16,12 @@
     NSArray *_images;
 }
     
-- (void)fetchRecentImagesWithCompletion:(void (^)(NSArray *response,
-                                                NSError *error))completion {
+- (void)fetchRecentImagesWithCompletion:(void (^)(void))completion {
     [API fetchRecentImagesWithCompletion:^(NSArray *response, NSError *error) {
         _images = response;
-        completion(response, error);
+        completion();
     }];
 }
-
-
 
 
 - (NSUInteger)count

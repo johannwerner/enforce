@@ -12,6 +12,8 @@
 @property (nonatomic,copy,readonly) NSString *title;
 @property (nonatomic,copy,readonly) NSString *url;
 @property (nonatomic,copy,readonly) NSString *previewURL;
+@property (nonatomic, strong) NSString *comment;
+@property (nonatomic, assign) long imageId;
 
-- (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL;
+- (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL imageId:(long)imageId;
 @end

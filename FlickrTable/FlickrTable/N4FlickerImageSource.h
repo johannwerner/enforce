@@ -14,8 +14,7 @@
 
 @property (nonatomic,assign,readonly) NSUInteger count;
 
-- (void)fetchRecentImagesWithCompletion:(void (^)(NSArray *response,
-                                                  NSError *error))completion;
+- (void)fetchRecentImagesWithCompletion:(void (^)(void))completion;
 
 - (N4FlickrImage*)imageAtIndex:(NSUInteger)index;
 

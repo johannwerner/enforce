@@ -10,11 +10,12 @@
 
 @implementation N4FlickrImage
 
-- (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL
+- (id)initWithTitle:(NSString*)title url:(NSString*)url previewURL:(NSString*)previewURL imageId:(long)imageId
 {
     _title = title;
     _url = url;
     _previewURL = previewURL;
+    _imageId = imageId;
     return self;
 }
 
