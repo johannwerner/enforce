@@ -7,7 +7,6 @@
 //
 
 #import "N4FlickerImageSource.h"
-#import "N4FlickrConstants.h"
 #import "N4FlickrImage.h"
 #import "API.h"
 

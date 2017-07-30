@@ -7,28 +7,19 @@
 //
 
 #import "N4FlickrImageListViewController.h"
-#import "ImageCacheHelper.h"
+#import "N4ImageCacheHelper.h"
 #import "N4FlickrConstants.h"
 #import "N4FlickerImageSource.h"
 #import "N4FlickrImageCell.h"
 #import "N4FlickrImageViewController.h"
 #import "N4FlickrImage.h"
-#import "FavouritesTableViewController.h"
-
-@interface N4FlickerImageCacheInfo : NSData
-@property (nonatomic,copy) NSString *url;
-@property (nonatomic,copy) UIImage *image;
-
-@end
-
-@implementation N4FlickerImageCacheInfo
-@end
+#import "N4FavouritesTableViewController.h"
 
 @interface N4FlickrImageListViewController ()
 
 @property (nonatomic, strong) N4FlickerImageSource *imageSource;
 
-@property(strong, nonatomic) ImageCacheHelper *imageCacheHelper;
+@property(strong, nonatomic) N4ImageCacheHelper *imageCacheHelper;
 
 @end
 
@@ -40,17 +31,17 @@
     
     self.title = NSLocalizedString(@"RecentPhotos", nil);
     
-    self.tableView.rowHeight = 75.0f;
+    self.tableView.rowHeight = N4FlickrImageCellHeightConstant;
     [self.tableView registerClass:[N4FlickrImageCell class]
         forCellReuseIdentifier:NSStringFromClass([N4FlickrImageCell class])];
 
     self.imageSource = [N4FlickerImageSource new];
     
-    self.imageCacheHelper = [[ImageCacheHelper alloc] init];
+    self.imageCacheHelper = [[N4ImageCacheHelper alloc] init];
 
     [self updatePhotos:nil];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ViewFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(favourites)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ViewFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(favourites)]; //Should consider icon here
 }
 
 - (void)updatePhotos:(id)sender
@@ -81,7 +72,7 @@
 {
 	N4FlickrImageCell *cell = [tableView dequeueReusableCellWithIdentifier:
         NSStringFromClass([N4FlickrImageCell class])];
-    N4FlickrImage *flickrImage = [_imageSource imageAtIndex:indexPath.row];
+    N4FlickrImage *flickrImage = [_imageSource imageAtIndex:(NSUInteger) indexPath.row];
     
     cell.title = flickrImage.title;
     
@@ -109,14 +100,14 @@
     // show the selected image in our image view controller
 
         N4FlickrImageViewController *ctrl = [[N4FlickrImageViewController alloc]
-                                             initWithFlickrImage:[_imageSource imageAtIndex:indexPath.row]];
+                                             initWithFlickrImage:[_imageSource imageAtIndex:(NSUInteger) indexPath.row]];
         [self.navigationController pushViewController:ctrl animated:YES];
 }
 
 #pragma mark - Selectors
 
 - (void)favourites {
-    FavouritesTableViewController *favouritesTableViewController = [[FavouritesTableViewController alloc] init];
+    N4FavouritesTableViewController *favouritesTableViewController = [[N4FavouritesTableViewController alloc] init];
     [self.navigationController pushViewController:favouritesTableViewController animated:YES];
 }
 @end

@@ -9,7 +9,7 @@
 #import "N4FlickrImageViewController.h"
 #import "N4FlickrImage.h"
 #import "API.h"
-#import "SaveFavouriteOntoDiskHelper.h"
+#import "N4SaveFavouriteOntoDiskHelper.h"
 
 @interface N4FlickrImageViewController () <UIScrollViewDelegate>
 
@@ -32,7 +32,7 @@
 	return self;
 }
 
--(void)loadView { //Fixed wierd animation when going to this view
+-(void)loadView { //Fixed weird animation when going to this view not reported.
     self.view = [[UIView alloc] init];
     self.view.backgroundColor = [UIColor whiteColor];
 }
@@ -41,9 +41,9 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"AddFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(addFavourite)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"AddFavourite", nil) style:UIBarButtonItemStylePlain target:self action:@selector(addFavourite)];//Should consider icon here
     
-    self.title = self.image.title; //Long title maybe we can 
+    self.title = self.image.title;
     
     self.scrollView = [[UIScrollView alloc] init];
     [self.scrollView setAutoresizingMask:(UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin)];
@@ -80,6 +80,7 @@
     [super viewDidAppear:animated];
     
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    //The scrollview should have same width and height of main view. from ios 9 the frame of the view is no longer guaranteed to be set by viewWillAppear and can now only be guaranteed in viewDidAppear.
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -114,12 +115,12 @@
     
     N4FlickrImageViewController* __weak weakSelf = self;
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OKKey", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSArray * textfields = alertController.textFields;
-        UITextField * commentTextField = textfields[0];
+        NSArray * textfieldArray = alertController.textFields;
+        UITextField * commentTextField = textfieldArray[0];
         weakSelf.image.comment = commentTextField.text;
         
         
-        [SaveFavouriteOntoDiskHelper addFavourtiteImage:weakSelf.image];
+        [N4SaveFavouriteOntoDiskHelper addFavouriteImage:weakSelf.image];
     }]];
     
     [self presentViewController:alertController animated:YES completion:nil];

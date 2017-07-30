@@ -1,5 +1,5 @@
 //
-//  ImageCacheHelper.h
+//  N4ImageCacheHelper.h
 //  FlickrTable
 //
 //  Created by Johann Werner on 30.07.17.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ImageCacheHelper : NSObject
+@interface N4ImageCacheHelper : NSObject
 
 - (void)fetchImageFromUrl:(NSString *)urlString
                 onDidLoad:(void (^)(UIImage *image))onImageDidLoad;

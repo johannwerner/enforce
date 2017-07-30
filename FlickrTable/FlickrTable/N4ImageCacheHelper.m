@@ -1,5 +1,5 @@
 //
-//  ImageCacheHelper.m
+//  N4ImageCacheHelper.m
 //  FlickrTable
 //
 //  Created by Johann Werner on 30.07.17.
@@ -7,15 +7,15 @@
 //
 
 #import "API.h"
-#import "ImageCacheHelper.h"
+#import "N4ImageCacheHelper.h"
 
-@interface ImageCacheHelper ()
+@interface N4ImageCacheHelper ()
 
 @property(strong, nonatomic) NSMutableDictionary *imageCache;
 
 @end
 
-@implementation ImageCacheHelper
+@implementation N4ImageCacheHelper
 
 - (id)init {
     self = [super init];
@@ -31,7 +31,7 @@
     if (imageFromCache) {
         onImageDidLoad(imageFromCache);
     } else {
-        ImageCacheHelper* __weak weakSelf = self;
+        N4ImageCacheHelper* __weak weakSelf = self;
         [API fetchImageFromUrl:urlString
                      onDidLoad:^(UIImage *image) {
                          if (urlString) {

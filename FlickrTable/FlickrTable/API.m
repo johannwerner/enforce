@@ -48,7 +48,7 @@
                                 NSMutableString *previewURL = [[NSMutableString alloc] initWithString:url];
                                 [previewURL appendString:@"_q.jpg"];
                                 
-                                N4FlickrImage * flickerImage = [[N4FlickrImage alloc] initWithTitle:image[@"title"] url:imageURL previewURL:previewURL imageId:[image[@"id"] integerValue]];
+                                N4FlickrImage * flickerImage = [[N4FlickrImage alloc] initWithTitle:image[@"title"] url:imageURL previewURL:previewURL];
                                 [images addObject:flickerImage];
                             }
                             

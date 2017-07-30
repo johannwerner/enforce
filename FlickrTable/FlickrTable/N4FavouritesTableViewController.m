@@ -6,31 +6,32 @@
 //  Copyright © 2017 NumberFour AG. All rights reserved.
 //
 
-#import "FavouritesTableViewController.h"
+#import "N4FavouritesTableViewController.h"
 #import "N4FlickrImageCell.h"
-#import "SaveFavouriteOntoDiskHelper.h"
+#import "N4SaveFavouriteOntoDiskHelper.h"
 #import "N4FlickrImage.h"
-#import "ImageCacheHelper.h"
+#import "N4ImageCacheHelper.h"
+#import "N4FlickrConstants.h"
 
-@interface FavouritesTableViewController ()
+@interface N4FavouritesTableViewController ()
 
 @property (strong, nonatomic) NSArray *favouritesArray;
-@property(strong, nonatomic) ImageCacheHelper *imageCacheHelper;
+@property(strong, nonatomic) N4ImageCacheHelper *imageCacheHelper;
 
 @end
 
-@implementation FavouritesTableViewController
+@implementation N4FavouritesTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.rowHeight = 75.0f;
+    self.tableView.rowHeight = N4FlickrImageCellHeightConstant;
     [self.tableView registerClass:[N4FlickrImageCell class]
            forCellReuseIdentifier:NSStringFromClass([N4FlickrImageCell class])];
     
-    self.favouritesArray = [SaveFavouriteOntoDiskHelper getListOfFavourites];
+    self.favouritesArray = [N4SaveFavouriteOntoDiskHelper getListOfFavourites];
     
-    self.imageCacheHelper = [[ImageCacheHelper alloc] init];
+    self.imageCacheHelper = [[N4ImageCacheHelper alloc] init];
 }
 
 #pragma mark - Table view data source

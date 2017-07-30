@@ -10,9 +10,9 @@
 
 @class N4FlickrImage;
 
-@interface SaveFavouriteOntoDiskHelper : NSObject
+@interface N4SaveFavouriteOntoDiskHelper : NSObject
 
-+(void)addFavourtiteImage:(N4FlickrImage*) n4flickrImage;
++(void)addFavouriteImage:(N4FlickrImage*) n4flickrImage;
 
 +(NSArray*)getListOfFavourites;
 

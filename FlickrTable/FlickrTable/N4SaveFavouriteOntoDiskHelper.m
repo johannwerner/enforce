@@ -6,18 +6,18 @@
 //  Copyright © 2017 NumberFour AG. All rights reserved.
 //
 
-#import "SaveFavouriteOntoDiskHelper.h"
+#import "N4SaveFavouriteOntoDiskHelper.h"
 #import "N4FlickrImage.h"
 #import "N4FlickrConstants.h"
 
 static NSString * ListOfFavouritesDefaultsKey = @"ListOfFavouritesDefaultsKey";
 
-@implementation SaveFavouriteOntoDiskHelper
+@implementation N4SaveFavouriteOntoDiskHelper
 
-+(void)addFavourtiteImage:(N4FlickrImage*) n4flickrImage
++(void)addFavouriteImage:(N4FlickrImage*) n4flickrImage
 //This should ideally be done by saving on a sql database especially if data becomes more complex
 {
-    NSMutableArray *favouritesArray = [[SaveFavouriteOntoDiskHelper getListOfFavourites] mutableCopy];
+    NSMutableArray *favouritesArray = [[N4SaveFavouriteOntoDiskHelper getListOfFavourites] mutableCopy];
     
     if (favouritesArray == nil) {
         favouritesArray = [[NSMutableArray alloc] init];

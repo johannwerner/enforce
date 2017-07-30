@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 NumberFour AG. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "N4AppDelegate.h"
 
 int main(int argc, char *argv[])
