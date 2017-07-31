@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface N4FlickrImageCell : UITableViewCell
+
 @property (nonatomic, assign) NSString *title;
 @property (nonatomic, assign) UIImage *previewImage;
+
 @end

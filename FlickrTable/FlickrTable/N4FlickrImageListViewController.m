@@ -112,4 +112,5 @@
     N4FavouritesTableViewController *favouritesTableViewController = [[N4FavouritesTableViewController alloc] init];
     [self.navigationController pushViewController:favouritesTableViewController animated:YES];
 }
+
 @end

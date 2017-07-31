@@ -11,5 +11,7 @@
 @class N4FlickrImage;
 
 @interface N4FlickrImageViewController : UIViewController
+
 - (id)initWithFlickrImage:(N4FlickrImage*)image;
+
 @end

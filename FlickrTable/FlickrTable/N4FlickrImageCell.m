@@ -27,8 +27,6 @@
 	return self;
 }
 
-
-
 #pragma mark - Public Methods
 
 - (void)setTitle:(NSString *)title

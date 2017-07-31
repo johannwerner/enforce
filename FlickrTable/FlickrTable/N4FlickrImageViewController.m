@@ -61,6 +61,10 @@
     UIViewAutoresizingFlexibleHeight;
     self.flickrImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.scrollView addSubview:self.flickrImageView];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     N4FlickrImageViewController* __weak weakSelf = self;
     [API fetchImageFromUrl:self.image.url onDidLoad:^(UIImage *image) {
@@ -74,13 +78,9 @@
         CGFloat heightRatio = scrollViewHeight / image.size.height;
         weakSelf.scrollView.minimumZoomScale = MIN(heightRatio, widthRatio);
         weakSelf.scrollView.maximumZoomScale =
-        MAX(weakSelf.scrollView.minimumZoomScale, 1.0);
+        MAX(weakSelf.scrollView.minimumZoomScale, 1.0f);
         weakSelf.scrollView.zoomScale = weakSelf.scrollView.maximumZoomScale/2;
     }];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     //The scrollView should have same width and height of main view. from ios 9 the frame of the view is no longer guaranteed to be set by viewWillAppear and can now only be guaranteed in viewDidAppear.

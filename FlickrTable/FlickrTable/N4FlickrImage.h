@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface N4FlickrImage : NSObject
+
 @property (nonatomic,copy,readonly) NSString *title;
 @property (nonatomic,copy,readonly) NSString *url;
 @property (nonatomic,copy,readonly) NSString *previewURL;
